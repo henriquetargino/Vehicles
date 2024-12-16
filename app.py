@@ -102,7 +102,7 @@ fig2 = px.bar(
     color='type',  # Cada tipo de carro será colorido
     labels={
         'brand': 'Car Brand',  # Marca do carro
-        'count': 'Number of Cars',  # Contagem de carros
+        'count': 'Total Cars',  # Contagem de carros
         'type': 'Car Type'  # Tipo de carro
     },
     height=580,
@@ -115,5 +115,16 @@ fig2 = px.bar(
     '#569866',  # verde pantano
     '#4C78A8'   # azul meio roxo
 ])
-
+fig2.update_layout(
+    title={
+        'text': 'Number of Vehicle Types Produced by Each Brand',
+        'x': 0.5,  # centraliza o título
+        'xanchor': 'center'
+    },
+    title_font_size=24,  # tamanho da fonte do título
+    xaxis_title_font_size=18, 
+    yaxis_title_font_size=18,# tamanho da fonte do título do eixo x# tamanho da fonte do título do eixo y
+    legend_font_size=13.7,  # tamanho da fonte da legenda
+    legend_title_font_size=19,  # tamanho da fonte do título da legenda
+)
 st.plotly_chart(fig2)
