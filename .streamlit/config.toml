@@ -1,0 +1,15 @@
+[server]
+headless = true
+port = 10000
+enableCORS = true  
+address = "0.0.0.0"  
+
+[browser]
+serverAddress = "localhost"
+serverPort = 10000
+
+[theme]
+primaryColor = "#DAA520"
+backgroundColor = "#0c0c0c"
+secondaryBackgroundColor = "#1a1a1a"
+textColor = "#ffffff"
