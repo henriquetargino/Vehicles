@@ -128,3 +128,70 @@ fig2.update_layout(
     legend_title_font_size=19,  # tamanho da fonte do título da legenda
 )
 st.plotly_chart(fig2)
+
+# Criar widgets de seleção para os usuários escolherem as marcas
+manufacturer1 = st.selectbox("Select brand 1", car_data['brand'].unique(), index=0)
+manufacturer2 = st.selectbox("Select brand 2", car_data['brand'].unique(), index=1)
+
+# Filtrar os dados com base nas marcas selecionadas
+filtered_data = car_data[(car_data['brand'] == manufacturer1) | (car_data['brand'] == manufacturer2)]
+
+# Calcular a mediana do preço a cada ano para as marcas selecionadas
+median_price_per_year = filtered_data.groupby(['model_year', 'brand'])['price'].median().reset_index()
+
+# Criar gráfico para comparar as medianas dos preços por ano das marcas selecionadas
+fig3 = px.line(median_price_per_year, x='model_year', y='price', color='brand',
+               labels={
+                   'model_year': 'Model Year',
+                   'price': 'Median Price',
+                   'brand': 'Car Brand'
+               },
+               title='Median Price per Year for Selected Brands'
+               )
+
+# Exibir o gráfico no Streamlit
+st.plotly_chart(fig3, use_container_width=True)
+
+
+
+
+
+
+
+
+
+
+
+# Agrupar os dados por tipo de carro e tipo de combustível e contar o número de veículos
+car_data_grouped6 = car_data.groupby(['type', 'fuel']).size().reset_index(name='count')
+
+# Criar o gráfico de barras empilhadas para distribuição de tipo de combustível por tipo de carro
+fig6 = px.bar(car_data_grouped6, x='type', y='count', color='fuel',
+              labels={
+                  'type': 'Car Type',  # Tipo de carro
+                  'count': 'Number of Cars',  # Contagem de carros
+                  'fuel': 'Fuel Type'  # Tipo de combustível
+              },
+              height=580,
+              hover_name='fuel',
+              # Personalizar o hover
+              hover_data={'type': True, 'count': True},
+              color_discrete_sequence=px.colors.qualitative.Set1
+              )
+
+# Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
+fig6.update_layout(
+    title={
+        'text': 'Distribution of Fuel Types by Car Type',
+        'x': 0.5,  # Centraliza o título
+        'xanchor': 'center'
+    },
+    title_font_size=24,  # Tamanho da fonte do título
+    xaxis_title_font_size=18, # Tamanho da fonte do título do eixo x
+    yaxis_title='Total Cars',  # Adiciona a legenda ao eixo y
+    yaxis_title_font_size=18,# Tamanho da fonte do título do eixo y
+    legend_font_size=13.7,  # Tamanho da fonte da legenda
+    legend_title_font_size=19,  # Tamanho da fonte do título da legenda
+)
+
+st.plotly_chart(fig6)
