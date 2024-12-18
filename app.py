@@ -2,14 +2,14 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-# configuração do layout da página
+# layout da página
 st.set_page_config(
     page_title="Vehicles Dataframe",
     page_icon="🚗",
     layout="wide",  # tela inteira
     initial_sidebar_state="expanded",
-    menu_items={  # personalização dos itens do menu de hambúrguer
-        'Get Help': 'https://www.globo.com.br',
+    menu_items={  # tres pontinhos
+        'Get Help': 'https://www.globo.com',
         'Report a bug': 'https://www.example.com/bug',
         'About': '## Testando'
     }
@@ -22,10 +22,10 @@ car_data = pd.read_csv('notebooks/car_data.csv')
 
 st.title("Vehicles Dataframe")
 
-# mostrar o DataFrame interativo ocupando a largura total da pagina
+# dataFrame interativo ocupando a largura total da pagina
 st.dataframe(car_data, use_container_width=True)
 
-# adicionar botão de download para o arquivo CSV
+# botão de download para o arquivo CSV
 csv = car_data.to_csv(index=False)
 st.download_button(
     label="Upload CSV",
@@ -146,7 +146,7 @@ fig4 = px.bar(car_data_grouped4, x='paint_color', y='count',
               labels={'paint_color': 'Paint Color', 'count': 'Total Cars'},
               title='Distribution of Car Colors',
               color='paint_color',
-              color_discrete_sequence=['#ffffff', '#000000', '#C0C0C0', '#808080', '#0000FF', '#FF0000', 
+              color_discrete_sequence=['#ffffff', '#181818', '#C0C0C0', '#808080', '#0000FF', '#FF0000', 
                                        '#008000', '#582f0e', '#CD7F32', '#FFFF00', '#fb8500', '#800080'],
               )
 
@@ -205,7 +205,7 @@ fig6 = px.scatter(car_data_grouped6, x='days_listed', y='brand', color='paint_co
                   hover_name='paint_color',
                   # Personalizar o hover
                   hover_data={'brand': True, 'days_listed': True, 'paint_color': True},
-                  color_discrete_sequence=px.colors.qualitative.Set1
+                  color_discrete_sequence=['#181818', '#0000FF', '#582f0e', '#CD7F32', '#00FF00', '#808080', '#FF0000', '#C0C0C0', '#FFFFFF', '#FFFF00', '#800080','#fb8500']
                   )
 
 # Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
@@ -285,6 +285,29 @@ fig8.update_layout(
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
 )
 
+# grafico para comparar quantos dias cada marca demora para ser vendida (sem contar com os outliers)
+fig9 = px.box(car_data, x='brand', y='days_listed', color='brand',height=600,  labels={
+                      'brand': 'Car Brand',  # Marca do carro
+                      'days_listed': 'Days Listed',  # Mediana dos dias listados
+                      'cylinders1': 'Cylinders'  # Cilindros do carro)
+                    })
+fig9.update_layout(
+    title={
+        'text': 'Impact of Brand and Cylinders on Median Days Listed',
+        'x': 0.5,  # Centraliza o título
+        'xanchor': 'center'
+    },
+    title_font_size=24,  # Tamanho da fonte do título
+    xaxis_title_font_size=18,  # Tamanho da fonte do título do eixo x
+    xaxis_title='',  # Adiciona a legenda ao eixo y
+    yaxis_title_font_size=18,  # Tamanho da fonte do título do eixo y
+    legend_font_size=13.7,  # Tamanho da fonte da legenda
+    legend_title_font_size=18,  # Tamanho da fonte do título da legenda
+)
+
+st.plotly_chart(fig9)
+
+
 # Exibir os gráficos em 2x2
 col1, col2 = st.columns(2)
 with col1:
@@ -296,10 +319,10 @@ with col2:
     
     
 # Agrupar os dados por tipo de carro e tipo de combustível e contar o número de veículos
-car_data_grouped9 = car_data.groupby(['type', 'fuel']).size().reset_index(name='count')
+car_data_grouped10 = car_data.groupby(['type', 'fuel']).size().reset_index(name='count')
 
 # Criar o gráfico de barras empilhadas para distribuição de tipo de combustível por tipo de carro
-fig9 = px.bar(car_data_grouped9, x='type', y='count', color='fuel',
+fig10 = px.bar(car_data_grouped10, x='type', y='count', color='fuel',
               labels={
                   'type': 'Car Type',  # Tipo de carro
                   'count': 'Number of Cars',  # Contagem de carros
@@ -313,7 +336,7 @@ fig9 = px.bar(car_data_grouped9, x='type', y='count', color='fuel',
               )
 
 # Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
-fig9.update_layout(
+fig10.update_layout(
     title={
         'text': 'Distribution of Fuel Types by Car Type',
         'x': 0.5,  # Centraliza o título
@@ -327,4 +350,4 @@ fig9.update_layout(
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
 )
 
-st.plotly_chart(fig9)
+st.plotly_chart(fig10)

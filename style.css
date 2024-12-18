@@ -1,4 +1,4 @@
-/* personalizar a barra de rolagem */
+/* barra de rolagem */
 ::-webkit-scrollbar {
     width: 0.3em;
 }
@@ -12,12 +12,11 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #1a1a1a;
 }
-/* estilo para o DataFrame */
+
 .stDataframe {
     border-bottom: 0px;
 }
 
-/* estilo para o botão de download */
 .stDownloadButton {
     display: flex;
     justify-content: center;
