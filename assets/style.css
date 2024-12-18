@@ -27,5 +27,21 @@
 .custom-title {
     font-size: 2.8rem;
     color: #ffffff;
-    margin-bottom: 1em;
+    margin-bottom: 0.4em;
+}
+
+.about-project {
+    font-size: 1.2rem;
+    color: #ffffff;
+    margin-bottom:1.3em;
+}
+
+a {
+    color: #DAA520 !important;
+    text-decoration:underline; 
+}
+
+a:hover {
+    color: rgba(235, 178, 34, 0.829) !important;
+    text-decoration:none; 
 }

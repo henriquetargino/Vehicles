@@ -28,11 +28,15 @@ st.markdown("""
     """, unsafe_allow_html=True)
 st.header("About the Project:")
 st.markdown("""
+    <div class="about-project">
     This project is a Streamlit Web App that uses the data of car sales platform to create interactive visualizations with the Plotly Express library.
     The dataset contains detailed information about vehicles, which we will unpack later.
     The purpose of this project is to explore the data and create visualizations to help understand the dataset better.
-    If you like my insights, consider giving a star to my project on GitHub. And if you are interested in my work, here is my LinkedIn! Now let's dive into analyzing this data.
-    """)
+    If you like my insights, consider giving a star to my project on <a href="https://github.com/henriquetargino">GitHub</a> 
+    (all my comments and issues faced are in the repository's README). 
+    And if you are interested in my work, here is my <a href="https://www.linkedin.com/in/henriquetargino/">Linkedin</a>! Now let's dive into analyzing this data.
+    </div>
+    """, unsafe_allow_html=True)
 
 st.title("Vehicles Dataframe Overview")
 
