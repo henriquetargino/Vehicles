@@ -15,12 +15,26 @@ st.set_page_config(
     }
 )
 # css
-with open("style.css") as f:
+with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
 car_data = pd.read_csv('notebooks/car_data.csv')
+# me apresentando e apresentando o projeto
+st.markdown("""
+    <div class="custom-title">
+        👋 Hi! My name is <strong>Henrique Targino</strong>.<br>
+       &emsp;&nbsp;&nbsp;&nbsp;Welcome to my Web App! 🚗
+    </div>
+    """, unsafe_allow_html=True)
+st.header("About the Project:")
+st.markdown("""
+    This project is a Streamlit Web App that uses the data of car sales platform to create interactive visualizations with the Plotly Express library.
+    The dataset contains detailed information about vehicles, which we will unpack later.
+    The purpose of this project is to explore the data and create visualizations to help understand the dataset better.
+    If you like my insights, consider giving a star to my project on GitHub. And if you are interested in my work, here is my LinkedIn! Now let's dive into analyzing this data.
+    """)
 
-st.title("Vehicles Dataframe")
+st.title("Vehicles Dataframe Overview")
 
 # dataFrame interativo ocupando a largura total da pagina
 st.dataframe(car_data, use_container_width=True)
