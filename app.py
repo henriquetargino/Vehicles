@@ -15,9 +15,37 @@ st.set_page_config(
     }
 )
 
-# CSS personalizado
-with open("style.css") as f:
-    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
+# CSS personalizado diretamente no app.py
+st.markdown("""
+<style>
+/* personalizar a barra de rolagem */
+::-webkit-scrollbar {
+    width: 0.3em;
+}
+::-webkit-scrollbar-track {
+    background: #0c0c0c;
+}
+::-webkit-scrollbar-thumb {
+    background: #1a1a1a;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #1a1a1a;
+}
+/* estilo para o DataFrame */
+.stDataframe {
+    border-bottom: 0px;
+}
+
+/* estilo para o botão de download */
+.stDownloadButton {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    margin-top: 0px;
+}
+</style>
+""", unsafe_allow_html=True)
 
 car_data = pd.read_csv('notebooks/car_data.csv')
 
