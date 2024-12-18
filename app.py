@@ -218,7 +218,7 @@ fig6.update_layout(
     },
     title_font_size=24,  # Tamanho da fonte do título
     xaxis_title_font_size=18,  # Tamanho da fonte do título do eixo x
-    yaxis_title='Car Brand',  # Adiciona a legenda ao eixo y
+    yaxis_title='',  # Adiciona a legenda ao eixo y
     yaxis_title_font_size=18,  # Tamanho da fonte do título do eixo y
     legend_font_size=13.7,  # Tamanho da fonte da legenda
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
@@ -280,7 +280,7 @@ fig8.update_layout(
     },
     title_font_size=24,  # Tamanho da fonte do título
     xaxis_title_font_size=18,  # Tamanho da fonte do título do eixo x
-    yaxis_title='Car Brand',  # Adiciona a legenda ao eixo y
+    yaxis_title='',  # Adiciona a legenda ao eixo y
     yaxis_title_font_size=18,  # Tamanho da fonte do título do eixo y
     legend_font_size=13.7,  # Tamanho da fonte da legenda
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
