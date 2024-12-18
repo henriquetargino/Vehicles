@@ -155,13 +155,25 @@ st.plotly_chart(fig4, use_container_width=True)
 st.markdown("---")
 
 
+# tirando unknown para o gráfico fig6
+car_data_filtered = car_data[car_data['paint_color'] != 'unknown']
+
+# Remover outliers da coluna 'days_listed'
+Q1 = car_data['days_listed'].quantile(0.25)
+Q3 = car_data['days_listed'].quantile(0.75)
+IQR = Q3 - Q1
+lower_bound = Q1 - 1.5 * IQR
+upper_bound = Q3 + 1.5 * IQR
+
+car_data_filtered2 = car_data_filtered[(car_data['days_listed'] >= lower_bound) & (car_data['days_listed'] <= upper_bound)]
+
 
 # Organizar os valores da coluna 'condition'
 condition_order = ['new', 'like new', 'excellent', 'good', 'fair', 'savage']
-car_data['condition'] = pd.Categorical(car_data['condition'], categories=condition_order, ordered=True)
+car_data_filtered2['condition'] = pd.Categorical(car_data_filtered2['condition'], categories=condition_order, ordered=True)
 
 # fazer um gráfico para ver qual é a marca, cor, condição e transmissão mais facilmente vendida com a coluna days_listed
-car_data_grouped5 = car_data.groupby(['brand', 'condition'])['days_listed'].median().reset_index()
+car_data_grouped5 = car_data_filtered2.groupby(['brand', 'condition'])['days_listed'].median().reset_index()
 fig5 = px.scatter(car_data_grouped5, x='days_listed', y='brand', color='condition',
                   labels={
                       'brand': 'Car Brand',  # Marca do carro
@@ -190,11 +202,8 @@ fig5.update_layout(
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
 )
 
-# tirando unknown
-car_data_filtered = car_data[car_data['paint_color'] != 'unknown']
-
 # Fazer um gráfico para ver qual é a marca, cor, condição e transmissão mais facilmente vendida com a coluna days_listed, substituindo condition por paint_color
-car_data_grouped6 = car_data_filtered.groupby(['brand', 'paint_color'])['days_listed'].median().reset_index()
+car_data_grouped6 = car_data_filtered2.groupby(['brand', 'paint_color'])['days_listed'].median().reset_index()
 fig6 = px.scatter(car_data_grouped6, x='days_listed', y='brand', color='paint_color',
                   labels={
                       'brand': 'Car Brand',  # Marca do carro
@@ -205,7 +214,7 @@ fig6 = px.scatter(car_data_grouped6, x='days_listed', y='brand', color='paint_co
                   hover_name='paint_color',
                   # Personalizar o hover
                   hover_data={'brand': True, 'days_listed': True, 'paint_color': True},
-                  color_discrete_sequence=['#181818', '#0000FF', '#582f0e', '#CD7F32', '#00FF00', '#808080', '#FF0000', '#C0C0C0', '#FFFFFF', '#FFFF00', '#800080','#fb8500']
+                  color_discrete_sequence=['#505050', '#0000FF', '#582f0e', '#CD7F32', '#00FF00', '#808080', '#FF0000', '#C0C0C0', '#FFFFFF', '#FFFF00', '#800080','#fb8500']
                   )
 
 # Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
@@ -223,7 +232,7 @@ fig6.update_layout(
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
 )
 
-car_data_grouped7 = car_data.groupby(['brand', 'type'])['days_listed'].median().reset_index()
+car_data_grouped7 = car_data_filtered2.groupby(['brand', 'type'])['days_listed'].median().reset_index()
 fig7 = px.scatter(car_data_grouped7, x='days_listed', y='brand', color='type',
                   labels={
                       'brand': 'Car Brand',  # Marca do carro
@@ -253,10 +262,10 @@ fig7.update_layout(
 )
 
 # Converter a coluna 'cylinders' para categoria
-car_data['cylinders1'] = car_data['cylinders'].astype('category')
+car_data_filtered2['cylinders1'] = car_data_filtered2['cylinders'].astype('category')
 
 # Fazer um gráfico para ver qual é a marca, cilindros e transmissão mais facilmente vendida com a coluna days_listed
-car_data_grouped8 = car_data.groupby(['brand', 'cylinders1'])['days_listed'].median().reset_index()
+car_data_grouped8 = car_data_filtered2.groupby(['brand', 'cylinders1'])['days_listed'].median().reset_index()
 fig8 = px.scatter(car_data_grouped8, x='days_listed', y='brand', color='cylinders1',
                   labels={
                       'brand': 'Car Brand',  # Marca do carro
@@ -285,15 +294,15 @@ fig8.update_layout(
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
 )
 
-# grafico para comparar quantos dias cada marca demora para ser vendida (sem contar com os outliers)
+# Gráfico para comparar quantos dias cada marca demora para ser vendida (sem contar com os outliers)
 fig9 = px.box(car_data, x='brand', y='days_listed', color='brand',height=600,  labels={
                       'brand': 'Car Brand',  # Marca do carro
-                      'days_listed': 'Days Listed',  # Mediana dos dias listados
+                      'days_listed': 'Days  Listed',  # Mediana dos dias listados
                       'cylinders1': 'Cylinders'  # Cilindros do carro)
                     })
 fig9.update_layout(
     title={
-        'text': 'Impact of Brand and Cylinders on Median Days Listed',
+        'text': 'How Many Days Does it Take For a Car of Each Brand to be Sold',
         'x': 0.5,  # Centraliza o título
         'xanchor': 'center'
     },
