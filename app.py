@@ -61,7 +61,8 @@ with left_column:
     """)
 
 with right_column:
-    st.markdown("""> - "Paint Color": Color of the vehicle.
+    st.markdown("""
+> - "Paint Color": Color of the vehicle.
 > - "Is_4wd": Whether the vehicle has 4-wheel drive (1 = True and 0 = False).
 > - "Date Posted": Date the vehicle was posted for sale.
 > - "Days Listed": Number of days the vehicle was listed for sale.
@@ -81,12 +82,19 @@ st.download_button(
 
 st.markdown("---")
 
+st.header("Start the Analysis:")
+
+st.markdown("""After using Jupyter Notebook to perform the initial part of the Exploratory Data Analysis (EDA),
+            we can start exploring the data and creating interactive visualizations to better understand the dataset. 
+            Since this is a car sales platform, let's analyze which brand costs the most for the consumer. 
+            Then, let's take a look at the distribution of vehicle prices by brand:""")
+
 # agrupar os dados por marca e calcular a média do preço
 car_data_grouped = car_data.groupby('brand')['price'].median(
 ).reset_index().sort_values(by='price', ascending=False)
 fig = px.bar(car_data_grouped, x='price', y='brand',
              color='brand',
-             labels={'price': 'Median Price', 'brand': 'Car Brand'},
+             labels={'price': 'Price ($)', 'brand': 'Car Brand'},
              height=580,
              hover_name='brand',
              # personalizar o hover
@@ -113,7 +121,20 @@ fig.update_traces(
 
 st.plotly_chart(fig)
 
+st.caption("""<div class="legends"> 
+           All charts are interactive. Hover over the points to see more information.
+           </div>""", unsafe_allow_html=True)
+
 st.markdown("---")
+
+st.header("Cars Type Distribution:")
+
+st.markdown("""Now, I want to analyze which type of car is most manufactured by each brand 
+            listed in the dataset and determine the most produced type overall. At first glance, 
+            the chart might seem a bit overwhelming, but, like all charts in this application, 
+            it is interactive. To make the most of it, simply double-click on the right legend to 
+            highlight a specific car type and analyze it individually.""")
+
 
 car_data_grouped2 = car_data.groupby(['brand', 'type']).size().reset_index(name='count')
 fig2 = px.bar(
@@ -150,6 +171,9 @@ fig2.update_layout(
 )
 st.plotly_chart(fig2)
 
+st.caption("""<div class="legends"> 
+            When double-clicking on the legend, pay attention to the change on the Y-axis.
+           </div>""", unsafe_allow_html=True)
 st.markdown("---")
 
 # Criar widgets de seleção para os usuários escolherem as marcas
@@ -166,7 +190,7 @@ median_price_per_year = filtered_data.groupby(['model_year', 'brand'])['price'].
 fig3 = px.line(median_price_per_year, x='model_year', y='price', color='brand',
                labels={
                    'model_year': 'Model Year',
-                   'price': 'Median Price',
+                   'price': 'Price ($)',
                    'brand': 'Car Brand'
                },
                title='Median Price per Year for Selected Brands',

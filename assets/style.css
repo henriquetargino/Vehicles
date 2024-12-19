@@ -12,6 +12,7 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #1a1a1a;
 }
+/* término */
 
 .stDataframe {
     border-bottom: 0px;
@@ -23,8 +24,8 @@
     margin-bottom: 10px;
     margin-top: 1em;
     margin-bottom: 0px;
-    padding: 0px 0px; /* Aumenta o preenchimento do botão */
-    border-radius: 0px; /* Adiciona bordas arredondadas */
+    padding: 0px 0px; 
+    border-radius: 0px;
 }
 
 .custom-title {
@@ -37,6 +38,7 @@
     font-size: 1.2rem;
     color: #ffffff;
     margin-bottom:1.3em;
+    text-align: justify;
 }
 
 a {
@@ -49,6 +51,21 @@ a:hover {
     text-decoration:none; 
 }
 
-h2 { /* h2 = st.header*/
-    margin-bottom: 0rem; /* Ajusta o espaçamento inferior */
+h2 { 
+    margin-bottom: 0rem; 
+}
+
+p {
+    text-align: justify;
+    font-size: 1.2rem;
+    margin-bottom: 1.3em;
+}
+/* legendas */
+.legends {
+    font-size: 1rem; /* Ajusta o tamanho da fonte */
+    color: #888888; /* Define a cor do texto */
+    font-style: italic; /* Define o estilo da fonte como itálico */
+    opacity: 0.8;
+    margin-top: 0%;
+    margin-bottom: 0%; /* Define a opacidade */
 }
