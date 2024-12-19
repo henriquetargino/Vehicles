@@ -43,10 +43,37 @@ st.title("Vehicles Dataframe Overview")
 # dataFrame interativo ocupando a largura total da pagina
 st.dataframe(car_data, use_container_width=True)
 
+# criar em ingles um cabeçalho "legenda do dataframe"
+st.header("Columns Legend:")
+
+left_column, right_column = st.columns(2)
+
+with left_column:
+    st.markdown("""> - "Price": Price of the vehicle.
+> - "Model Year": Year the vehicle was manufactured.
+> - "Model": Model of the vehicle.
+> - "Condition": Condition of the vehicle.
+> - "Cylinders": Number of cylinders in the vehicle's engine.
+> - "Fuel": Type of fuel used by the vehicle.
+> - "Odometer": Number of miles the vehicle has been driven.
+> - "Transmission": Type of transmission used by the vehicle.
+> - "Type": Type of vehicle.
+    """)
+
+with right_column:
+    st.markdown("""> - "Paint Color": Color of the vehicle.
+> - "Is_4wd": Whether the vehicle has 4-wheel drive (1 = True and 0 = False).
+> - "Date Posted": Date the vehicle was posted for sale.
+> - "Days Listed": Number of days the vehicle was listed for sale.
+<br><br>My column contributions:
+>>- "Year_posted": Year the vehicle was posted for sale.
+>>- "Brand": Brand of the vehicle.
+>>- "Age": Age of the vehicle.
+    """, unsafe_allow_html=True)
 # botão de download para o arquivo CSV
 csv = car_data.to_csv(index=False)
 st.download_button(
-    label="Upload CSV",
+    label="Download CSV",
     data=csv,
     file_name='car_data.csv',
     mime='text/csv'

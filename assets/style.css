@@ -21,7 +21,10 @@
     display: flex;
     justify-content: center;
     margin-bottom: 10px;
-    margin-top: 0px;
+    margin-top: 1em;
+    margin-bottom: 0px;
+    padding: 0px 0px; /* Aumenta o preenchimento do botão */
+    border-radius: 0px; /* Adiciona bordas arredondadas */
 }
 
 .custom-title {
@@ -44,4 +47,8 @@ a {
 a:hover {
     color: rgba(235, 178, 34, 0.829) !important;
     text-decoration:none; 
+}
+
+h2 { /* h2 = st.header*/
+    margin-bottom: 0rem; /* Ajusta o espaçamento inferior */
 }
