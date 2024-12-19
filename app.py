@@ -68,7 +68,7 @@ with right_column:
 <br><br>My column contributions:
 >>- "Year_posted": Year the vehicle was posted for sale.
 >>- "Brand": Brand of the vehicle.
->>- "Age": Age of the vehicle.
+>>- "Car Age": Age of the vehicle.
     """, unsafe_allow_html=True)
 # botão de download para o arquivo CSV
 csv = car_data.to_csv(index=False)
