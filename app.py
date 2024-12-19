@@ -32,7 +32,7 @@ st.markdown("""
     This project is a Streamlit Web App that uses the data of car sales platform to create interactive visualizations with the Plotly Express library.
     The dataset contains detailed information about vehicles, which we will unpack later.
     The purpose of this project is to explore the data and create visualizations to help understand the dataset better.
-    If you like my insights, consider giving a star to my project on <a href="https://github.com/henriquetargino">GitHub</a> 
+    If you like my insights, consider giving a star to my project on <a href="https://github.com/henriquetargino/Vehicles">GitHub</a> 
     (all my comments and issues faced are in the repository's README). 
     And if you are interested in my work, here is my <a href="https://www.linkedin.com/in/henriquetargino/">Linkedin</a>! Now let's dive into analyzing this data.
     </div>
@@ -176,6 +176,10 @@ st.caption("""<div class="legends">
            </div>""", unsafe_allow_html=True)
 st.markdown("---")
 
+st.header("Brand X Brand:")
+
+st.markdown("""The following line chart compares the value of vehicles from two 
+            brands of your choice based on their year of manufacture.""")
 # Criar widgets de seleção para os usuários escolherem as marcas
 brand1 = st.selectbox("Select brand 1:", car_data['brand'].unique(), index=0)
 brand2 = st.selectbox("Select brand 2:", car_data['brand'].unique(), index=1)
@@ -206,7 +210,16 @@ fig3.update_layout(
 # Exibir o gráfico no Streamlit
 st.plotly_chart(fig3, use_container_width=True)
 
+st.caption("""<div class="legends"> 
+           Disclaimer: The data is exclusively from the car 
+           sales platform in question and does not reflect the market as a whole.
+           </div>""", unsafe_allow_html=True)
+
 st.markdown("---")
+
+st.header("What's the Most Popular Car Color?")
+
+st.markdown("""Analyzing the data, we can see that the color of the car is an important factor in the purchase decision. Therefore, we will examine the distribution of car colors and identify the most popular color among consumers. Additionally, understanding these preferences can provide valuable insights for manufacturers and sellers to align with market demands.""")
 
 # distribuição de cores de carros sem "unknown" 
 car_data_grouped4 = car_data[car_data['paint_color'] != 'unknown'].groupby('paint_color').size().reset_index(name='count').sort_values(by='count', ascending=False)
@@ -219,9 +232,19 @@ fig4 = px.bar(car_data_grouped4, x='paint_color', y='count',
                                        '#008000', '#582f0e', '#CD7F32', '#FFFF00', '#fb8500', '#800080'],
               )
 
+fig4.update_layout(
+    title_font_size=17)
 st.plotly_chart(fig4, use_container_width=True)
 
 st.markdown("---")
+
+st.header("Which Brand is Easiest to Sell? And Which is the Most Difficult?")
+st.markdown("""Do you know what a boxplot is? It's a chart that provides an overview of the data distribution. 
+            It displays the median (the line in the middle), Q1 (the lower boundary of the box, representing 25% 
+            of the data), Q3 (the upper boundary of the box, representing 75% of the data), and the outliers (points 
+            outside the box). What are outliers? They are values that fall outside the range of 1.5 times the IQR 
+            (Q3 - Q1), meaning they are extreme values that can potentially skew our analysis. Check out the chart 
+            below and learn how to deal with outliers:""", unsafe_allow_html=True)
 
 
 # tirando unknown para o gráfico fig6
@@ -363,12 +386,15 @@ fig8.update_layout(
     legend_title_font_size=19,  # Tamanho da fonte do título da legenda
 )
 
+# ordem alfabetica no boxplot
+ordem_alfabetica = sorted(car_data_filtered2['brand'].unique())
+
 # Gráfico para comparar quantos dias cada marca demora para ser vendida (sem contar com os outliers)
 fig9 = px.box(car_data, x='brand', y='days_listed', color='brand',height=600,  labels={
                       'brand': 'Car Brand',  # Marca do carro
                       'days_listed': 'Days  Listed',  # Mediana dos dias listados
-                      'cylinders1': 'Cylinders'  # Cilindros do carro)
-                    })
+                    },
+                    category_orders={'brand': ordem_alfabetica})
 fig9.update_layout(
     title={
         'text': 'How Many Days Does it Take For a Car of Each Brand to be Sold',
@@ -380,12 +406,37 @@ fig9.update_layout(
     xaxis_title='',  # Adiciona a legenda ao eixo y
     yaxis_title_font_size=18,  # Tamanho da fonte do título do eixo y
     legend_font_size=13.7,  # Tamanho da fonte da legenda
-    legend_title_font_size=18,  # Tamanho da fonte do título da legenda
+    legend_title_font_size=18, 
+    
 )
 
 st.plotly_chart(fig9)
 
+st.header("Does it Really Take 271 Days to Sell a Chevrolet Car?")
+st.markdown("""""", unsafe_allow_html=True)
+# faça um gráfigo igual o do fig9, mas com o dataframe car_data_filtered2
+fig9_filtered = px.box(car_data_filtered2, x='brand', y='days_listed', color='brand',height=600,  labels={
+                      'brand': 'Car Brand',  # Marca do carro
+                      'days_listed': 'Days  Listed',  # Mediana dos dias listados
+                    },
+                    category_orders={'brand': ordem_alfabetica})
 
+fig9_filtered.update_layout(
+    title={
+        'text': 'How Many Days Does it Take For a Car of Each Brand to be Sold (without outliers)',
+        'x': 0.5,  # Centraliza o título
+        'xanchor': 'center'
+    },
+    title_font_size=24,  # Tamanho da fonte do título
+    xaxis_title_font_size=18,  # Tamanho da fonte do título do eixo x
+    xaxis_title='',  # Adiciona a legenda ao eixo y
+    yaxis_title_font_size=18,  # Tamanho da fonte do título do eixo y
+    legend_font_size=13.7,  # Tamanho da fonte da legenda
+    legend_title_font_size=18, 
+    
+)
+st.plotly_chart(fig9_filtered)
+st.markdown("---")
 # Exibir os gráficos em 2x2
 col1, col2 = st.columns(2)
 with col1:
