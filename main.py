@@ -182,8 +182,14 @@ def app():
 
     st.header("Brand X Brand:")
 
-    st.markdown("""The following line chart compares the value of vehicles from two 
-                brands of your choice based on their year of manufacture.""")
+    st.markdown("""The following line chart compares the median vehicle prices of two selected brands 
+                based on their manufacturing year. For example, if you select 'Cadillac' and 'BMW,' the 
+                chart shows that cars manufactured between 2000 and 2014 maintain a low price, but from 2015 onwards,
+                the chart rises exponentially. This could indicate that cars from these brands experience high depreciation, 
+                and in a short period, they lose significant value. It’s an interesting hypothesis — we can test it! Use the 
+                select box to freely explore the chart (just keep in mind that the X-axis represents the manufacturing year, 
+                not the number of cars sold that year).
+                """, unsafe_allow_html=True)
     # Criar widgets de seleção para os usuários escolherem as marcas
     brand1 = st.selectbox("Select brand 1:", car_data['brand'].unique(), index=0)
     brand2 = st.selectbox("Select brand 2:", car_data['brand'].unique(), index=1)
