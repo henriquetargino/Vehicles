@@ -248,6 +248,41 @@ def app():
 
     st.markdown("---")
 
+    # Agrupar os dados por tipo de carro e tipo de combustível e contar o número de veículos
+    car_data_grouped4= car_data.groupby(['type', 'fuel']).size().reset_index(name='count')
+
+    # Criar o gráfico de barras empilhadas para distribuição de tipo de combustível por tipo de carro
+    fig4 = px.bar(car_data_grouped4, x='type', y='count', color='fuel',
+                labels={
+                    'type': 'Car Type',  # Tipo de carro
+                    'count': 'Number of Cars',  # Contagem de carros
+                    'fuel': 'Fuel Type'  # Tipo de combustível
+                },
+                height=580,
+                hover_name='fuel',
+                # Personalizar o hover
+                hover_data={'type': True, 'count': True},
+                color_discrete_sequence=px.colors.qualitative.Set1
+                )
+
+    # Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
+    fig4.update_layout(
+        title={
+            'text': 'Distribution of Fuel Types by Car Type',
+            'x': 0.5,  # Centraliza o título
+            'xanchor': 'center'
+        },
+        title_font_size=24,  # Tamanho da fonte do título
+        xaxis_title_font_size=18, # Tamanho da fonte do título do eixo x
+        yaxis_title='Total Cars',  # Adiciona a legenda ao eixo y
+        yaxis_title_font_size=18,# Tamanho da fonte do título do eixo y
+        legend_font_size=13.7,  # Tamanho da fonte da legenda
+        legend_title_font_size=19,  # Tamanho da fonte do título da legenda
+    )
+
+    st.plotly_chart(fig4)
+    
+    st.markdown("---")
     st.header("Which Brand is Easiest to Sell? And Which is the Most Difficult?")
     st.markdown("""Do you know what a boxplot is? It's a chart that provides an overview of the data distribution. 
                 It displays the median (the line in the middle), Q1 (the lower boundary of the box, representing 25% 
@@ -273,12 +308,12 @@ def app():
     ordem_alfabetica = sorted(car_data_filtered2['brand'].unique())
 
     # Gráfico para comparar quantos dias cada marca demora para ser vendida (sem contar com os outliers)
-    fig9 = px.box(car_data, x='brand', y='days_listed', color='brand',height=600,  labels={
+    fig5 = px.box(car_data, x='brand', y='days_listed', color='brand',height=600,  labels={
                         'brand': 'Car Brand',  # Marca do carro
                         'days_listed': 'Days  Listed',  # Mediana dos dias listados
                         },
                         category_orders={'brand': ordem_alfabetica})
-    fig9.update_layout(
+    fig5.update_layout(
         title={
             'text': 'How Many Days Does it Take For a Car of Each Brand to be Sold',
             'x': 0.5,  # Centraliza o título
@@ -293,7 +328,7 @@ def app():
         
     )
 
-    st.plotly_chart(fig9)
+    st.plotly_chart(fig5)
 
     st.header("Does it Really Take 271 Days to Sell a Chevrolet Car?")
     st.markdown("""If you look at the graph above, you’ll see that there is a Chevrolet 
@@ -310,13 +345,13 @@ def app():
                 """, unsafe_allow_html=True)
 
     # faça um gráfigo igual o do fig9, mas com o dataframe car_data_filtered2
-    fig9_filtered = px.box(car_data_filtered2, x='brand', y='days_listed', color='brand',height=600,  labels={
+    fig5_filtered = px.box(car_data_filtered2, x='brand', y='days_listed', color='brand',height=600,  labels={
                         'brand': 'Car Brand',  # Marca do carro
                         'days_listed': 'Days  Listed',  # Mediana dos dias listados
                         },
                         category_orders={'brand': ordem_alfabetica})
 
-    fig9_filtered.update_layout(
+    fig5_filtered.update_layout(
         title={
             'text': 'How Many Days Does it Take For a Car of Each Brand to be Sold (without outliers)',
             'x': 0.5,  # Centraliza o título
@@ -330,7 +365,7 @@ def app():
         legend_title_font_size=18, 
         
     )
-    st.plotly_chart(fig9_filtered)
+    st.plotly_chart(fig5_filtered)
 
     st.markdown("""If you think that removing outliers is a bad practice that might distort the analysis, 
                 keep in mind that only <strong>3.1%</strong> of the data was removed. So, just 3% of the data 
@@ -348,37 +383,3 @@ def app():
     """)
 
     st.markdown("---")
-
-    # Agrupar os dados por tipo de carro e tipo de combustível e contar o número de veículos
-    car_data_grouped10 = car_data.groupby(['type', 'fuel']).size().reset_index(name='count')
-
-    # Criar o gráfico de barras empilhadas para distribuição de tipo de combustível por tipo de carro
-    fig10 = px.bar(car_data_grouped10, x='type', y='count', color='fuel',
-                labels={
-                    'type': 'Car Type',  # Tipo de carro
-                    'count': 'Number of Cars',  # Contagem de carros
-                    'fuel': 'Fuel Type'  # Tipo de combustível
-                },
-                height=580,
-                hover_name='fuel',
-                # Personalizar o hover
-                hover_data={'type': True, 'count': True},
-                color_discrete_sequence=px.colors.qualitative.Set1
-                )
-
-    # Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
-    fig10.update_layout(
-        title={
-            'text': 'Distribution of Fuel Types by Car Type',
-            'x': 0.5,  # Centraliza o título
-            'xanchor': 'center'
-        },
-        title_font_size=24,  # Tamanho da fonte do título
-        xaxis_title_font_size=18, # Tamanho da fonte do título do eixo x
-        yaxis_title='Total Cars',  # Adiciona a legenda ao eixo y
-        yaxis_title_font_size=18,# Tamanho da fonte do título do eixo y
-        legend_font_size=13.7,  # Tamanho da fonte da legenda
-        legend_title_font_size=19,  # Tamanho da fonte do título da legenda
-    )
-
-    st.plotly_chart(fig10)
