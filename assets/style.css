@@ -62,7 +62,7 @@ p {
 }
 /* legendas */
 .legends {
-    font-size: 1rem; /* Ajusta o tamanho da fonte */
+    font-size: 2.7vh; /* Ajusta o tamanho da fonte */
     color: #888888; /* Define a cor do texto */
     font-style: italic; /* Define o estilo da fonte como itálico */
     opacity: 0.8;

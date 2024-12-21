@@ -137,10 +137,13 @@ def app():
                 listed in the dataset and determine the most produced type overall. At first glance, 
                 the chart might seem a bit overwhelming, but, like all charts in this application, 
                 it is interactive. To make the most of it, simply double-click on the right legend to 
-                highlight a specific car type and analyze it individually.""")
+                highlight a specific car type and analyze it individually.""", unsafe_allow_html=True)
 
 
     car_data_grouped2 = car_data.groupby(['brand', 'type']).size().reset_index(name='count')
+    
+    car_data_grouped2 = car_data_grouped2.sort_values(by='count', ascending=False)
+    
     fig2 = px.bar(
         car_data_grouped2,
         x='brand', 
@@ -172,12 +175,14 @@ def app():
         yaxis_title_font_size=18,# tamanho da fonte do título do eixo x# tamanho da fonte do título do eixo y
         legend_font_size=13.7,  # tamanho da fonte da legenda
         legend_title_font_size=19,  # tamanho da fonte do título da legenda
+        xaxis={'categoryorder': 'total descending'} 
     )
     st.plotly_chart(fig2)
 
     st.caption("""<div class="legends"> 
                 When double-clicking on the legend, pay attention to the change on the Y-axis.
             </div>""", unsafe_allow_html=True)
+    
     st.markdown("---")
 
     st.header("Brand X Brand:")
@@ -229,7 +234,10 @@ def app():
 
     st.header("What's the Most Popular Car Color?")
 
-    st.markdown("""Analyzing the data, we can see that the color of the car is an important factor in the purchase decision. Therefore, we will examine the distribution of car colors and identify the most popular color among consumers. Additionally, understanding these preferences can provide valuable insights for manufacturers and sellers to align with market demands.""")
+    st.markdown("""Analyzing the data, we can see that the color of the car is an important factor 
+                in the purchase decision. Therefore, we will examine the distribution of car colors and 
+                identify the most popular color among consumers. Additionally, understanding these preferences 
+                can provide valuable insights for manufacturers and sellers to align with market demands.""", unsafe_allow_html=True)
 
     # distribuição de cores de carros sem "unknown" 
     car_data_grouped4 = car_data[car_data['paint_color'] != 'unknown'].groupby('paint_color').size().reset_index(name='count').sort_values(by='count', ascending=False)
@@ -248,8 +256,17 @@ def app():
 
     st.markdown("---")
 
+    st.header("Distribution of Fuel Types by Car Type:")
+
+    st.markdown("""Analyzing the distribution of fuel types by car type is essential to understanding the vehicle market. 
+                Beyond providing valuable insights for manufacturers and sellers, this analysis can help identify trends in the fuel market. 
+                The stacked bar chart below illustrates the distribution of fuel types across car categories, showing which type of fuel is 
+                most commonly used for each car type. Use the interactive chart in the same way you explored the second chart.
+                """, unsafe_allow_html=True)
+    
+
     # Agrupar os dados por tipo de carro e tipo de combustível e contar o número de veículos
-    car_data_grouped4= car_data.groupby(['type', 'fuel']).size().reset_index(name='count')
+    car_data_grouped4= car_data.groupby(['type', 'fuel']).size().reset_index(name='count').sort_values(by='count', ascending=False)
 
     # Criar o gráfico de barras empilhadas para distribuição de tipo de combustível por tipo de carro
     fig4 = px.bar(car_data_grouped4, x='type', y='count', color='fuel',
@@ -262,7 +279,7 @@ def app():
                 hover_name='fuel',
                 # Personalizar o hover
                 hover_data={'type': True, 'count': True},
-                color_discrete_sequence=px.colors.qualitative.Set1
+                color_discrete_sequence=['#1f77b4', '#d62728', '#2ca02c', '#ff7f0e', '#9467bd']
                 )
 
     # Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
@@ -281,6 +298,10 @@ def app():
     )
 
     st.plotly_chart(fig4)
+    
+    st.caption("""<div class="legends"> 
+                The cars in the dataset range from 1908 to 2019, which is why the number of electric cars is low.
+            </div>""", unsafe_allow_html=True)    
     
     st.markdown("---")
     st.header("Which Brand is Easiest to Sell? And Which is the Most Difficult?")
@@ -329,6 +350,8 @@ def app():
     )
 
     st.plotly_chart(fig5)
+    
+    st.markdown("---")
 
     st.header("Does it Really Take 271 Days to Sell a Chevrolet Car?")
     st.markdown("""If you look at the graph above, you’ll see that there is a Chevrolet 
