@@ -1,6 +1,6 @@
 /* barra de rolagem */
 ::-webkit-scrollbar {
-    width: 0.3em;
+    width: 0.3vw;
 }
 ::-webkit-scrollbar-track {
     background: #0c0c0c;
@@ -15,7 +15,7 @@
 /* término */
 
 .stDataframe {
-    border-bottom: 0px;
+    margin-bottom: 0px;
 }
 
 .stDownloadButton {
@@ -29,13 +29,13 @@
 }
 
 .custom-title {
-    font-size: 2.8rem;
+    font-size: 7.5vh;
     color: #ffffff;
     margin-bottom: 0.4em;
 }
 
 .about-project {
-    font-size: 1.2rem;
+    font-size: 3.2vh;
     color: #ffffff;
     margin-bottom:1.3em;
     text-align: justify;
@@ -57,8 +57,8 @@ h2 {
 
 p {
     text-align: justify;
-    font-size: 1.2rem;
-    margin-bottom: 1.3em;
+    font-size: 3vh;
+    margin-bottom: 4vh;
 }
 /* legendas */
 .legends {
