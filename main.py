@@ -1,8 +1,12 @@
 import pandas as pd
 import plotly.express as px
 import streamlit as st
-
-
+import scipy.stats as stats
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+from statsmodels.stats.multicomp import pairwise_tukeyhsd
+import matplotlib.pyplot as plt
+import lxml
 def app():
 
     # layout da página
@@ -195,9 +199,12 @@ def app():
                 select box to freely explore the chart (just keep in mind that the X-axis represents the manufacturing year, 
                 not the number of cars sold that year).
                 """, unsafe_allow_html=True)
+    
+    # Ordenar a lista de marcas em ordem alfabética
+    sorted_brands = sorted(car_data['brand'].unique())
     # Criar widgets de seleção para os usuários escolherem as marcas
-    brand1 = st.selectbox("Select brand 1:", car_data['brand'].unique(), index=0)
-    brand2 = st.selectbox("Select brand 2:", car_data['brand'].unique(), index=1)
+    brand1 = st.selectbox("Select brand 1:", sorted_brands, index=0)
+    brand2 = st.selectbox("Select brand 2:", sorted_brands, index=1)
 
     # Filtrar os dados com base nas marcas selecionadas
     filtered_data = car_data[(car_data['brand'] == brand1) | (car_data['brand'] == brand2)]
@@ -405,4 +412,64 @@ def app():
     outliers['brand'].value_counts() / car_data['brand'].value_counts() * 100
     """)
 
+    st.markdown("---")
+    
+    # Filtrar os dados para as marcas selecionadas
+    selected_brands = car_data['brand'].unique()
+    filtered_data = car_data[car_data['brand'].isin(selected_brands)]
+
+    # Realizar a ANOVA
+    model = ols('days_listed ~ C(brand)', data=filtered_data).fit()
+    anova_table = sm.stats.anova_lm(model, typ=2)
+
+    # Exibir os resultados da ANOVA no Streamlit
+    st.header("ANOVA and Tukey Test:")
+    st.markdown("""
+    ### Analysis of Variance (ANOVA)
+    To conclude our analysis, we will use more technical statistical terms. Starting with the Analysis of Variance (ANOVA), is a statistical method used to determine whether there are any statistically significant differences between the means of three or more independent groups. It analyzes the variability within and between groups to assess whether the group means differ more than would be expected by random chance.
+    In our case, we used ANOVA to check if there is any statistically significant difference in the days listed for each car brand.
+    """, unsafe_allow_html=True)
+
+    st.write("**ANOVA Results:**")
+    st.dataframe(anova_table,  use_container_width=True)
+    
+    st.caption("""<div class="legends"> 
+            The p-value (PR(>F)) is more than 0.05, which indicates that there is 
+            no statistically significant difference between the means of the car brands.
+            This means that the differences in the average days listed for sale among the 
+            car brands are not statistically significant.
+            </div>""", unsafe_allow_html=True)
+
+
+    st.write("")
+    st.write("")
+    # Realizar o Teste de Tukey
+    tukey = pairwise_tukeyhsd(endog=filtered_data['days_listed'], groups=filtered_data['brand'], alpha=0.05)
+    # Converter o resumo do teste de Tukey em um DataFrame
+    tukey_summary_df = pd.read_html(tukey.summary().as_html(), header=0, index_col=0)[0]
+    
+    # Exibir os resultados do Teste de Tukey no Streamlit
+    st.markdown("""
+    ### Tukey's Honest Significant Difference (HSD):
+    The Tukey HSD test is a post-hoc analysis performed after ANOVA to determine which specific groups' means are 
+    significantly different from each other. It identifies pairs of car brands with notable differences in their 
+    average days listed. To summarize, our null hypothesis (H₀) is: "Car brands do not exhibit significant differences 
+    in the average days listed." In other words, if the null hypothesis is rejected, it indicates that at least one 
+    car brand significantly differs in the average number of days it takes to sell.
+    """, unsafe_allow_html=True)
+
+    st.write("**Tukey Test Results:**")
+    st.dataframe(tukey_summary_df,  use_container_width=True)
+
+    # Plotar os resultados do Teste de Tukey
+    fig, ax = plt.subplots(figsize=(8, 6))  # Ajustar o tamanho da figura
+    tukey.plot_simultaneous(ax=ax)
+    ax.set_title("Tukey HSD Test Results", fontsize=16)
+    ax.set_xlabel("Mean Difference", fontsize=12)
+    ax.set_ylabel("Car Brand", fontsize=12)
+    plt.grid(True, linestyle='--', alpha=0.7)
+    
+    st.pyplot(fig)
+
+    # Adicionar uma linha de separação
     st.markdown("---")
