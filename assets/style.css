@@ -69,3 +69,9 @@ p {
     margin-top: 0%;
     margin-bottom: 0%; /* Define a opacidade */
 }
+/* footer */
+
+.footer{
+    display: flex;
+    justify-content: center;
+}

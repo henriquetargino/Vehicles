@@ -8,7 +8,7 @@ from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import matplotlib.pyplot as plt
 import lxml
 def app():
-
+    
     # layout da página
     st.set_page_config(
         page_title="Vehicles Dataframe",
@@ -16,16 +16,19 @@ def app():
         layout="wide",  # tela inteira
         initial_sidebar_state="expanded",
         menu_items={  # tres pontinhos
-            'Get Help': 'https://www.globo.com',
-            'Report a bug': 'https://www.example.com/bug',
-            'About': '## Testando'
-        }
+            'Get Help': 'mailto:henriquetarginoalbuquerque@gmail.com',
+            'Report a bug': 'mailto:henriquetarginoalbuquerque@gmail.com',
+            'About': """This web application is designed to provide an interactive and insightful analysis of vehicle data. Built using Streamlit, Plotly Express, and Pandas, it allows users to explore various aspects of car sales data through dynamic visualizations and statistical analyses. The app covers a range of topics, including price distribution by brand, car type distribution, fuel type analysis, and sales performance metrics. Additionally, it offers tools for downloading the dataset and performing advanced statistical tests like ANOVA and Tukey's HSD. Whether you're a car enthusiast, data analyst, or just curious about vehicle trends, this app provides a comprehensive platform for exploring and understanding car sales data."""
+
+    }
     )
     # css
     with open("assets/style.css") as f:
         st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+    # csv filtrado
     car_data = pd.read_csv('notebooks/car_data.csv')
+    
     # me apresentando e apresentando o projeto
     st.markdown("""
         <div class="custom-title">
@@ -37,7 +40,7 @@ def app():
     st.markdown("""
         <div class="about-project">
         This project is a Streamlit Web App that uses the data of car sales platform to create 
-        interactive visualizations with the Plotly Express library. The dataset contains over 51,000 rows information about vehicles, which we will unpack later.
+        interactive visualizations with the Plotly Express library. The dataset contains over 50,000 rows information about vehicles, which we will unpack later.
         The purpose of this project is to explore the data and create visualizations to help understand the dataset better.
         If you like my insights, consider giving a star to my project on <a href="https://github.com/henriquetargino/Vehicles">GitHub</a> 
         (all my comments and issues faced are in the repository's README). 
@@ -79,6 +82,7 @@ def app():
     >>- "Brand": Brand of the vehicle.
     >>- "Car Age": Age of the vehicle.
         """, unsafe_allow_html=True)
+    
     # botão de download para o arquivo CSV
     csv = car_data.to_csv(index=False)
     st.download_button(
@@ -92,10 +96,13 @@ def app():
 
     st.header("Start the Analysis:")
 
-    st.markdown("""After using Jupyter Notebook to perform the initial part of the Exploratory Data Analysis (EDA),
-                we can start exploring the data and creating interactive visualizations to better understand the dataset. 
-                Since this is a car sales platform, let's analyze which brand costs the most for the consumer. 
-                Then, let's take a look at the distribution of vehicle prices by brand:""", unsafe_allow_html=True)
+    st.markdown("""After conducting the initial part of the 
+                Exploratory Data Analysis (EDA) using Jupyter Notebook, 
+                we can now delve deeper into the data and create interactive 
+                visualizations to gain a better understanding of the dataset. 
+                Given that this is a car sales platform, our first analysis will 
+                focus on identifying which car brand is the most expensive for consumers. 
+                The graph below shows which brand has the highest median price:""", unsafe_allow_html=True)
 
     # agrupar os dados por marca e calcular a média do preço
     car_data_grouped = car_data.groupby('brand')['price'].median(
@@ -151,20 +158,20 @@ def app():
     fig2 = px.bar(
         car_data_grouped2,
         x='brand', 
-        y='count',  # A contagem será mostrada no eixo Y
-        color='type',  # Cada tipo de carro será colorido
+        y='count',  # a contagem será mostrada no eixo Y
+        color='type',  # cada tipo de carro será colorido
         labels={
-            'brand': 'Car Brand',  # Marca do carro
-            'count': 'Total Cars',  # Contagem de carros
-            'type': 'Car Type'  # Tipo de carro
+            'brand': 'Car Brand',  # marca do carro
+            'count': 'Total Cars',  # contagem de carros
+            'type': 'Car Type'  # tipo de carro
         },
         height=580,
-        hover_name='type',  # Nome do tipo do carro no hover
-        hover_data={'brand': True, 'count': True},  # Exibe informações adicionais no hover
+        hover_name='type',  # nome do tipo do carro no hover
+        hover_data={'brand': True, 'count': True},  # exibe informações adicionais no hover
         color_discrete_sequence = [
         '#0FD2AB',  # verde agua
         '#F17105',  # laranja
-        '#D62728',  # Vermelho
+        '#D62728',  # vermelho
         '#569866',  # verde pantano
         '#4C78A8'   # azul meio roxo
     ])
@@ -183,6 +190,7 @@ def app():
     )
     st.plotly_chart(fig2)
 
+    # legenda do gráfico
     st.caption("""<div class="legends"> 
                 When double-clicking on the legend, pay attention to the change on the Y-axis.
             </div>""", unsafe_allow_html=True)
@@ -200,19 +208,19 @@ def app():
                 not the number of cars sold that year).
                 """, unsafe_allow_html=True)
     
-    # Ordenar a lista de marcas em ordem alfabética
+    # ordenar a lista de marcas em ordem alfabética
     sorted_brands = sorted(car_data['brand'].unique())
-    # Criar widgets de seleção para os usuários escolherem as marcas
+    # criar widgets de seleção para os usuários escolherem as marcas
     brand1 = st.selectbox("Select brand 1:", sorted_brands, index=0)
     brand2 = st.selectbox("Select brand 2:", sorted_brands, index=1)
 
-    # Filtrar os dados com base nas marcas selecionadas
+    # filtrar os dados com base nas marcas selecionadas
     filtered_data = car_data[(car_data['brand'] == brand1) | (car_data['brand'] == brand2)]
 
-    # Calcular a mediana do preço a cada ano para as marcas selecionadas
+    # calcular a mediana do preço a cada ano para as marcas selecionadas
     median_price_per_year = filtered_data.groupby(['model_year', 'brand'])['price'].median().reset_index()
 
-    # Criar gráfico para comparar as medianas dos preços por ano das marcas selecionadas
+    # criar gráfico para comparar as medianas dos preços por ano das marcas selecionadas
     fig3 = px.line(median_price_per_year, x='model_year', y='price', color='brand',
                 labels={
                     'model_year': 'Model Year',
@@ -229,7 +237,7 @@ def app():
         legend_font_size=13.7,  # tamanho da fonte da legenda
         legend_title_font_size=15.5,  # tamanho da fonte do título da legenda
     )
-    # Exibir o gráfico no Streamlit
+    # exibir o gráfico no streamlit
     st.plotly_chart(fig3, use_container_width=True)
 
     st.caption("""<div class="legends"> 
@@ -272,15 +280,15 @@ def app():
                 """, unsafe_allow_html=True)
     
 
-    # Agrupar os dados por tipo de carro e tipo de combustível e contar o número de veículos
+    # agrupar os dados por tipo de carro e tipo de combustível e contar o número de veículos
     car_data_grouped4= car_data.groupby(['type', 'fuel']).size().reset_index(name='count').sort_values(by='count', ascending=False)
 
-    # Criar o gráfico de barras empilhadas para distribuição de tipo de combustível por tipo de carro
+    # criar o gráfico de barras empilhadas para distribuição de tipo de combustível por tipo de carro
     fig4 = px.bar(car_data_grouped4, x='type', y='count', color='fuel',
                 labels={
-                    'type': 'Car Type',  # Tipo de carro
-                    'count': 'Number of Cars',  # Contagem de carros
-                    'fuel': 'Fuel Type'  # Tipo de combustível
+                    'type': 'Car Type',  
+                    'count': 'Number of Cars',  
+                    'fuel': 'Fuel Type'  
                 },
                 height=580,
                 hover_name='fuel',
@@ -289,7 +297,6 @@ def app():
                 color_discrete_sequence=['#1f77b4', '#d62728', '#2ca02c', '#ff7f0e', '#9467bd']
                 )
 
-    # Atualizar o layout do gráfico para aumentar o tamanho das legendas e centralizar o título
     fig4.update_layout(
         title={
             'text': 'Distribution of Fuel Types by Car Type',
@@ -323,7 +330,7 @@ def app():
     # tirando unknown para o gráfico fig6
     car_data_filtered = car_data[car_data['paint_color'] != 'unknown']
 
-    # Remover outliers da coluna 'days_listed'
+    # remover outliers da coluna 'days_listed'
     Q1 = car_data['days_listed'].quantile(0.25)
     Q3 = car_data['days_listed'].quantile(0.75)
     IQR = Q3 - Q1
@@ -335,7 +342,7 @@ def app():
     # ordem alfabetica no boxplot
     ordem_alfabetica = sorted(car_data_filtered2['brand'].unique())
 
-    # Gráfico para comparar quantos dias cada marca demora para ser vendida (sem contar com os outliers)
+    # gráfico para comparar quantos dias cada marca demora para ser vendida (sem contar com os outliers)
     fig5 = px.box(car_data, x='brand', y='days_listed', color='brand',height=600,  labels={
                         'brand': 'Car Brand',  # Marca do carro
                         'days_listed': 'Days  Listed',  # Mediana dos dias listados
@@ -344,14 +351,14 @@ def app():
     fig5.update_layout(
         title={
             'text': 'How Many Days Does it Take For a Car of Each Brand to be Sold',
-            'x': 0.5,  # Centraliza o título
+            'x': 0.5,  # centraliza o título
             'xanchor': 'center'
         },
-        title_font_size=24,  # Tamanho da fonte do título
-        xaxis_title_font_size=18,  # Tamanho da fonte do título do eixo x
-        xaxis_title='',  # Adiciona a legenda ao eixo y
-        yaxis_title_font_size=18,  # Tamanho da fonte do título do eixo y
-        legend_font_size=13.7,  # Tamanho da fonte da legenda
+        title_font_size=24, 
+        xaxis_title_font_size=18,  
+        xaxis_title='',  
+        yaxis_title_font_size=18,  
+        legend_font_size=13.7,
         legend_title_font_size=18, 
         
     )
@@ -376,8 +383,8 @@ def app():
 
     # faça um gráfigo igual o do fig9, mas com o dataframe car_data_filtered2
     fig5_filtered = px.box(car_data_filtered2, x='brand', y='days_listed', color='brand',height=600,  labels={
-                        'brand': 'Car Brand',  # Marca do carro
-                        'days_listed': 'Days  Listed',  # Mediana dos dias listados
+                        'brand': 'Car Brand', 
+                        'days_listed': 'Days  Listed',  
                         },
                         category_orders={'brand': ordem_alfabetica})
 
@@ -387,11 +394,11 @@ def app():
             'x': 0.5,  # Centraliza o título
             'xanchor': 'center'
         },
-        title_font_size=24,  # Tamanho da fonte do título
-        xaxis_title_font_size=18,  # Tamanho da fonte do título do eixo x
-        xaxis_title='',  # Adiciona a legenda ao eixo y
-        yaxis_title_font_size=18,  # Tamanho da fonte do título do eixo y
-        legend_font_size=13.7,  # Tamanho da fonte da legenda
+        title_font_size=24,  
+        xaxis_title_font_size=18,  
+        xaxis_title='', 
+        yaxis_title_font_size=18,  
+        legend_font_size=13.7,  
         legend_title_font_size=18, 
         
     )
@@ -414,18 +421,18 @@ def app():
 
     st.markdown("---")
     
-    # Filtrar os dados para as marcas selecionadas
+    # filtrar os dados para as marcas selecionadas
     selected_brands = car_data['brand'].unique()
     filtered_data = car_data[car_data['brand'].isin(selected_brands)]
 
-    # Realizar a ANOVA
+    # realizar a ANOVA
     model = ols('days_listed ~ C(brand)', data=filtered_data).fit()
     anova_table = sm.stats.anova_lm(model, typ=2)
 
-    # Exibir os resultados da ANOVA no Streamlit
-    st.header("ANOVA and Tukey Test:")
+    # exibir os resultados da ANOVA no Streamlit
+    st.header("ANOVA and Tukey Test")
     st.markdown("""
-    ### Analysis of Variance (ANOVA)
+    ### Analysis of Variance (ANOVA):
     To conclude our analysis, we will use more technical statistical terms. Starting with the Analysis of Variance (ANOVA), 
     is a statistical method used to determine whether there are any statistically significant differences between the means of 
     three or more independent groups. It analyzes the variability within and between groups to assess whether the group means 
@@ -446,15 +453,15 @@ def app():
 
     st.write("")
     st.write("")
-    # Realizar o Teste de Tukey
+    # realizar o Teste de Tukey
     tukey = pairwise_tukeyhsd(endog=filtered_data['days_listed'], groups=filtered_data['brand'], alpha=0.05)
-    # Converter o resumo do teste de Tukey em um DataFrame
+    # converter o resumo do teste de Tukey em um DataFrame
     tukey_summary_df = pd.read_html(tukey.summary().as_html(), header=0, index_col=0)[0]
     
-    # Converter a coluna "reject" para texto "True" ou "False"
+    # converter a coluna "reject" para texto "true" ou "false"
     tukey_summary_df['reject'] = tukey_summary_df['reject'].apply(lambda x: 'True' if x else 'False')
 
-    # Exibir os resultados do Teste de Tukey no Streamlit
+    # exibir os resultados do Teste de Tukey no Streamlit
     st.markdown("""
     ### Tukey's Honest Significant Difference (HSD):
     The Tukey HSD test is a post-hoc analysis performed after ANOVA to determine which specific groups' means are 
@@ -478,12 +485,12 @@ def app():
     st.write("")
     
     st.markdown("""
-    ### Tukey Graph
+    ### Tukey Graph:
     The graph below is not interactive and not as visually appealing as the others, but it serves to analyze the average differences between car brands based on confidence intervals. Each line represents an interval for the average difference in days listed between two specific brands. The black dot indicates the estimated mean value of this difference, and the horizontal line around it shows the confidence interval. If the line of an interval overlaps the central region where differences are not significant, it suggests that there is not enough evidence to claim that the means of the two brands are different. In the graph, all lines cross this overlap region, indicating that no significant differences were detected between the pairs of brands, as we pointed out earlier.
     
     """, unsafe_allow_html=True)
-    # Plotar os resultados do Teste de Tukey
-    fig, ax = plt.subplots(figsize=(8, 6))  # Ajustar o tamanho da figura
+    # plotar os resultados do Teste de Tukey
+    fig, ax = plt.subplots(figsize=(8, 6)) 
     tukey.plot_simultaneous(ax=ax)
     ax.set_title("Tukey HSD Test Results", fontsize=16)
     ax.set_xlabel("Mean Difference", fontsize=12)
@@ -492,5 +499,16 @@ def app():
     
     st.pyplot(fig)
 
-    # Adicionar uma linha de separação
     st.markdown("---")
+    
+    # footer
+    st.markdown("""
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div class="footer">
+            <p>Developed by <strong>Henrique Targino</strong> | 
+                <a href="mailto:henriquetarginoalbuquerque@gmail.com"><i class="fas fa-envelope"></i></a> |
+                <a href="https://github.com/henriquetargino"><i class="fab fa-github"></i></a> |
+                <a href="https://www.linkedin.com/in/henriquetargino/"><i class="fab fa-linkedin"></i></a>
+            </p>
+        </div>
+    """, unsafe_allow_html=True)
