@@ -36,8 +36,8 @@ def app():
     st.header("About the Project:")
     st.markdown("""
         <div class="about-project">
-        This project is a Streamlit Web App that uses the data of car sales platform to create interactive visualizations with the Plotly Express library.
-        The dataset contains over 51,000 rows information about vehicles, which we will unpack later.
+        This project is a Streamlit Web App that uses the data of car sales platform to create 
+        interactive visualizations with the Plotly Express library. The dataset contains over 51,000 rows information about vehicles, which we will unpack later.
         The purpose of this project is to explore the data and create visualizations to help understand the dataset better.
         If you like my insights, consider giving a star to my project on <a href="https://github.com/henriquetargino/Vehicles">GitHub</a> 
         (all my comments and issues faced are in the repository's README). 
@@ -426,8 +426,11 @@ def app():
     st.header("ANOVA and Tukey Test:")
     st.markdown("""
     ### Analysis of Variance (ANOVA)
-    To conclude our analysis, we will use more technical statistical terms. Starting with the Analysis of Variance (ANOVA), is a statistical method used to determine whether there are any statistically significant differences between the means of three or more independent groups. It analyzes the variability within and between groups to assess whether the group means differ more than would be expected by random chance.
-    In our case, we used ANOVA to check if there is any statistically significant difference in the days listed for each car brand.
+    To conclude our analysis, we will use more technical statistical terms. Starting with the Analysis of Variance (ANOVA), 
+    is a statistical method used to determine whether there are any statistically significant differences between the means of 
+    three or more independent groups. It analyzes the variability within and between groups to assess whether the group means 
+    differ more than would be expected by random chance. In our case, we used ANOVA to check if there is any statistically significant 
+    difference in the days listed for each car brand.
     """, unsafe_allow_html=True)
 
     st.write("**ANOVA Results:**")
@@ -448,19 +451,37 @@ def app():
     # Converter o resumo do teste de Tukey em um DataFrame
     tukey_summary_df = pd.read_html(tukey.summary().as_html(), header=0, index_col=0)[0]
     
+    # Converter a coluna "reject" para texto "True" ou "False"
+    tukey_summary_df['reject'] = tukey_summary_df['reject'].apply(lambda x: 'True' if x else 'False')
+
     # Exibir os resultados do Teste de Tukey no Streamlit
     st.markdown("""
     ### Tukey's Honest Significant Difference (HSD):
     The Tukey HSD test is a post-hoc analysis performed after ANOVA to determine which specific groups' means are 
     significantly different from each other. It identifies pairs of car brands with notable differences in their 
-    average days listed. To summarize, our null hypothesis (H₀) is: "Car brands do not exhibit significant differences 
+    average days listed. It is not necessary to use the Tukey test because the ANOVA did not reject the null hypothesis; 
+    however, we will cover it for learning purposes.
+    To summarize, our null hypothesis (H₀) is: "Car brands do not exhibit significant differences 
     in the average days listed." In other words, if the null hypothesis is rejected, it indicates that at least one 
     car brand significantly differs in the average number of days it takes to sell.
     """, unsafe_allow_html=True)
 
     st.write("**Tukey Test Results:**")
     st.dataframe(tukey_summary_df,  use_container_width=True)
-
+    
+    st.caption("""<div class="legends"> 
+         As expected, the Tukey test did not reject the null hypothesis, 
+         which means that there are no significant differences in the average days listed for sale among the car brands.
+            </div>""", unsafe_allow_html=True)
+    
+    st.write("")
+    st.write("")
+    
+    st.markdown("""
+    ### Tukey Graph
+    The graph below is not interactive and not as visually appealing as the others, but it serves to analyze the average differences between car brands based on confidence intervals. Each line represents an interval for the average difference in days listed between two specific brands. The black dot indicates the estimated mean value of this difference, and the horizontal line around it shows the confidence interval. If the line of an interval overlaps the central region where differences are not significant, it suggests that there is not enough evidence to claim that the means of the two brands are different. In the graph, all lines cross this overlap region, indicating that no significant differences were detected between the pairs of brands, as we pointed out earlier.
+    
+    """, unsafe_allow_html=True)
     # Plotar os resultados do Teste de Tukey
     fig, ax = plt.subplots(figsize=(8, 6))  # Ajustar o tamanho da figura
     tukey.plot_simultaneous(ax=ax)
