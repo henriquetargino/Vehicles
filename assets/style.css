@@ -57,7 +57,7 @@ h2 {
 
 p {
     text-align: justify;
-    font-size: 3vh;
+    font-size: 3vh !important;
     margin-bottom: 4vh;
 }
 /* legendas */
