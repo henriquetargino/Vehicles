@@ -49,7 +49,7 @@ This web application is designed to provide an interactive and insightful analys
     streamlit run app.py
     ```
 
-2. Open your web browser and go to `http://localhost:8501` to view the app.
+2. Open your web browser and go to `http://localhost:10000` to view the app.
 
 ## Screenshots
 
