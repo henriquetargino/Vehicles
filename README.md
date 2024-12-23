@@ -27,8 +27,8 @@ This web application is designed to provide an interactive and insightful analys
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/henriquetargino/vehicles-data-analysis.git
-    cd vehicles-data-analysis
+    git clone https://github.com/henriquetargino/vehicles.git
+    cd vehicles
     ```
 
 2. Create a virtual environment and activate it:
@@ -66,7 +66,7 @@ Developed by Henrique Targino
 
 - **Email**: [henriquetarginoalbuquerque@gmail.com](mailto:henriquetarginoalbuquerque@gmail.com)
 - **GitHub**: [henriquetargino](https://github.com/henriquetargino)
-- **LinkedIn**: [Henrique Targino](https://www.linkedin.com/in/henriquetargino/)
+- **Linkedin**: [Henrique Targino](https://www.linkedin.com/in/henriquetargino/)
 
 ## License
 
