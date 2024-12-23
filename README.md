@@ -56,10 +56,6 @@ This web application is designed to provide an interactive and insightful analys
 ![Screenshot 1](https://via.placeholder.com/800x400.png?text=Screenshot+1)
 ![Screenshot 2](https://via.placeholder.com/800x400.png?text=Screenshot+2)
 
-## Contributing
-
-Contributions are welcome! If you have any suggestions or improvements, please open an issue or create a pull request.
-
 ## Contact
 
 Developed by Henrique Targino
