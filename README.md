@@ -1,6 +1,6 @@
 # Vehicles Data Analysis
 
-![Vehicles Data Analysis](assets/Data.PNG)
+![Vehicles Data Analysis](assets/Print1.PNG)
 
 ## Overview
 
@@ -22,6 +22,8 @@ This web application is designed to provide an interactive and insightful analys
 - **Statsmodels**: For performing ANOVA and Tukey's HSD tests.
 - **Matplotlib**: For plotting the results of statistical tests.
 - **Font Awesome**: For adding icons to the footer.
+- **Jupyter Notebook**: For Exploratory Data Analysis (EDA).
+- **CSS**: For the style of the web app.
 
 ## Installation
 
@@ -51,10 +53,9 @@ This web application is designed to provide an interactive and insightful analys
 
 2. Open your web browser and go to `http://localhost:10000` to view the app.
 
-## Screenshots
+## Dataframe Screenshot
 
-![Screenshot 1](https://via.placeholder.com/800x400.png?text=Screenshot+1)
-![Screenshot 2](https://via.placeholder.com/800x400.png?text=Screenshot+2)
+![Dataframe Screenshot](assets/Data.PNG)
 
 ## Contact
 
