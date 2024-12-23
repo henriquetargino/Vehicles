@@ -6,6 +6,10 @@
 
 This web application is designed to provide an interactive and insightful analysis of vehicle data. Built using Streamlit, Plotly Express, and Pandas, it allows users to explore various aspects of car sales data through dynamic visualizations and statistical analyses. The app covers a range of topics, including price distribution by brand, car type distribution, fuel type analysis, and sales performance metrics. Additionally, it offers tools for downloading the dataset and performing advanced statistical tests like ANOVA and Tukey's HSD. Whether you're a car enthusiast, data analyst, or just curious about vehicle trends, this app provides a comprehensive platform for exploring and understanding car sales data.
 
+## Problems Faced
+
+I encountered some problems while performing the Exploratory Data Analysis (EDA). The first issue was how to handle the missing values. More than 25,000 values were missing (about 10,000 in the "paint_color" column), so I replaced them with the term "unknown". The remaining 15,000 missing values were in the "model_year", "cylinders", and "odometer" columns. I filled the missing values in "cylinders" with the mode of the car model, "model_year" based on the car's condition and mileage, and "odometer" based on the year of manufacture. Another issue was with the Mercedes-Benz brand; the dataset contained only 40 rows of data for this brand and only 2 different cars, so I decided to exclude it from the analysis. More than 800 cars were listed with a price of USD $1, so I removed all cars priced below USD $100. Finally, the most challenging problem was that the web app would not open and displayed a red error screen. I spent an entire day trying to resolve this issue. Initially, I thought it was related to the style.css file, so I tried embedding the CSS, removing it, but nothing worked. Fortunately, I opened the same link on my mobile phone, and it did not return an error. I cleared the Google Chrome cache, and the web app started working.
+
 ## Features
 
 - **Interactive Visualizations**: Explore various aspects of car sales data through dynamic visualizations.
