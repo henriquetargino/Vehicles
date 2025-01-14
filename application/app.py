@@ -7,6 +7,7 @@ from statsmodels.formula.api import ols
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import matplotlib.pyplot as plt
 import lxml
+from streamlit_option_menu import option_menu
 from main import introduction, data_analysis, tests
 
 # layout da página
@@ -35,8 +36,23 @@ with open("assets/style.css") as f:
 
 car_data = pd.read_csv('notebooks/datasets/car_data.csv')
 
-# funções da aplicação
-if __name__ == '__main__':
+# Menu de navegação na barra lateral usando streamlit-option-menu
+with st.sidebar:
+    page = option_menu(
+        "Menu",
+        ["Introduction", "Data Analysis", "Tests", "I.A. Model"],
+        icons=["database", "bar-chart", "clipboard-check", "robot"],
+        menu_icon="cast",
+        default_index=0,
+
+    )
+
+# Exibir a página selecionada
+if page == "Introduction":
     introduction()
+elif page == "Data Analysis":
     data_analysis(car_data)
-    tests(car_data)
+elif page == "Tests":
+    tests(car_data) 
+elif page == "I.A. Model":
+    model(car_data) 

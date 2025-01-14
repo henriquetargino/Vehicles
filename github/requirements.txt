@@ -5,3 +5,4 @@ scipy
 statsmodels
 matplotlib
 lxml
+streamlit-option-menu
