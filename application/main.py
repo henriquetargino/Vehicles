@@ -76,6 +76,16 @@ def introduction():
     )
 
     st.markdown("---")
+    st.markdown("""
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div class="footer">
+            <p>Developed by <strong>Henrique Targino</strong> | 
+                <a href="mailto:henriquetarginoalbuquerque@gmail.com"><i class="fas fa-envelope"></i></a> |
+                <a href="https://github.com/henriquetargino"><i class="fab fa-github"></i></a> |
+                <a href="https://www.linkedin.com/in/henriquetargino/"><i class="fab fa-linkedin"></i></a>
+            </p>
+        </div>
+    """, unsafe_allow_html=True)   
 def data_analysis(car_data):
     st.header("Start the Analysis:")
 
@@ -403,6 +413,16 @@ def data_analysis(car_data):
     """)
 
     st.markdown("---")
+    st.markdown("""
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div class="footer">
+            <p>Developed by <strong>Henrique Targino</strong> | 
+                <a href="mailto:henriquetarginoalbuquerque@gmail.com"><i class="fas fa-envelope"></i></a> |
+                <a href="https://github.com/henriquetargino"><i class="fab fa-github"></i></a> |
+                <a href="https://www.linkedin.com/in/henriquetargino/"><i class="fab fa-linkedin"></i></a>
+            </p>
+        </div>
+    """, unsafe_allow_html=True)    
 def tests(car_data): 
     # filtrar os dados para as marcas selecionadas
     selected_brands = car_data['brand'].unique()

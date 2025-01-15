@@ -40,7 +40,7 @@ car_data = pd.read_csv('notebooks/datasets/car_data.csv')
 with st.sidebar:
     page = option_menu(
         "Menu",
-        ["Introduction", "Data Analysis", "Tests", "I.A. Model"],
+        ["Introduction", "Data Analysis", "Tests", "A.I. Model"],
         icons=["database", "bar-chart", "clipboard-check", "robot"],
         menu_icon="cast",
         default_index=0,
