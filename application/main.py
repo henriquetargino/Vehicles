@@ -519,9 +519,22 @@ def tests(car_data):
         </div>
     """, unsafe_allow_html=True) 
 def model(model_csv):
-    # fazer uma select box
-    selected_model = st.selectbox("Select a model:", model_csv['model'].unique())
-    st.write(f"You selected the model: {selected_model}")
+    # Abrindo o modelo salvo
+    with open("notebooks/predict.pkl", "rb") as file:
+          model_pkl = pickle.load(file)
+
+    # fazer uma select box para cada feature
+    select_brand = st.selectbox("Select a brand:", model_csv['brand'].unique())
+    select_model = st.selectbox("Select a model:", model_csv['model'].unique())
+    select_year = st.selectbox("Select a year:", model_csv['model_year'].unique())
+    select_condition = st.selectbox("Select a condition:", model_csv['condition'].unique())
+    select_cylinders = st.selectbox("Select a number of cylinders:", model_csv['cylinders'].unique())
+    select_fuel = st.selectbox("Select a fuel type:", model_csv['fuel'].unique())
+    select_transmission = st.selectbox("Select a transmission type:", model_csv['transmission'].unique())
+    select_type = st.selectbox("Select a car type:", model_csv['type'].unique())
+    select_paint_color = st.selectbox("Select a paint color:", model_csv['paint_color'].unique())
+    select_is_4wd = st.selectbox("Select if it is 4wd:", model_csv['is_4wd'].unique())
+    st.write(f"You selected the model: {select_model}")
     # Opening saved model
     with open("notebooks/predict.pkl", "rb") as file:
           model_pkl = pickle.load(file)
