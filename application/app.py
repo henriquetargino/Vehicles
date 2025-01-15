@@ -36,7 +36,7 @@ with open("assets/style.css") as f:
 
 car_data = pd.read_csv('notebooks/datasets/car_data.csv')
 
-# Menu de navegação na barra lateral usando streamlit-option-menu
+# side bar usando option_menu
 with st.sidebar:
     page = option_menu(
         "Menu",
@@ -44,7 +44,6 @@ with st.sidebar:
         icons=["database", "bar-chart", "clipboard-check", "robot"],
         menu_icon="cast",
         default_index=0,
-
     )
 
 # Exibir a página selecionada

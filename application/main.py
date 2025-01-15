@@ -495,3 +495,4 @@ def tests(car_data):
             </p>
         </div>
     """, unsafe_allow_html=True)
+#def model(car_data): 
