@@ -8,7 +8,8 @@ from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import matplotlib.pyplot as plt
 import lxml
 from streamlit_option_menu import option_menu
-from main import introduction, data_analysis, tests
+import pickle
+from main import introduction, data_analysis, tests, model
 
 # layout da página
 st.set_page_config(
@@ -34,7 +35,9 @@ st.set_page_config(
 with open("assets/style.css") as f:
     st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html=True)
 
+# carregando csv's
 car_data = pd.read_csv('notebooks/datasets/car_data.csv')
+model_csv = pd.read_csv('notebooks/datasets/model.csv')
 
 # side bar usando option_menu
 with st.sidebar:
@@ -53,5 +56,5 @@ elif page == "Data Analysis":
     data_analysis(car_data)
 elif page == "Tests":
     tests(car_data) 
-elif page == "I.A. Model":
-    model(car_data) 
+elif page == "A.I. Model":
+    model(model_csv) 

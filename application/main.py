@@ -7,10 +7,13 @@ from statsmodels.formula.api import ols
 from statsmodels.stats.multicomp import pairwise_tukeyhsd
 import matplotlib.pyplot as plt
 import lxml
+import pickle
 def introduction():
 
     # csv filtrado
     car_data = pd.read_csv('notebooks/datasets/car_data.csv')
+    # carregando o csv do modelo
+    model_csv = pd.read_csv('notebooks/datasets/model.csv')
     
     # me apresentando e apresentando o projeto
     st.markdown("""
@@ -514,5 +517,11 @@ def tests(car_data):
                 <a href="https://www.linkedin.com/in/henriquetargino/"><i class="fab fa-linkedin"></i></a>
             </p>
         </div>
-    """, unsafe_allow_html=True)
-#def model(car_data): 
+    """, unsafe_allow_html=True) 
+def model(model_csv):
+    # fazer uma select box
+    selected_model = st.selectbox("Select a model:", model_csv['model'].unique())
+    st.write(f"You selected the model: {selected_model}")
+    # Opening saved model
+    with open("notebooks/predict.pkl", "rb") as file:
+          model_pkl = pickle.load(file)
