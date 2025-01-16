@@ -25,12 +25,8 @@ def introduction():
     st.header("About the Project:")
     st.markdown("""
         <div class="about-project">
-        This project is a Streamlit Web App that uses the data of car sales platform to create 
-        interactive visualizations with the Plotly Express library. The dataset contains over 50,000 rows information about vehicles, which we will unpack later.
-        The purpose of this project is to explore the data and create visualizations to help understand the dataset better.
-        If you like my insights, consider giving a star to my project on <a href="https://github.com/henriquetargino/Vehicles">GitHub</a> 
-        (all my comments and issues faced are in the repository's README). 
-        And if you are interested in my work, here is my <a href="https://www.linkedin.com/in/henriquetargino/">Linkedin</a>! Now let's dive into analyzing this data.
+        This project is a Streamlit Web App that uses car sales platform data to create interactive visualizations with the Plotly Express library and implements a machine learning model with Scikit-Learn to predict car prices. On the left, there’s a sidebar (close it for better visualization) where you can navigate through the project pages. The dataset contains over 50,000 rows of information about vehicles, which we will unpack later. At the end of the project, there’s a machine learning model I built using Random Forest Regression to predict your car's price. If you like my insights, consider giving a star to my project on <a href="https://github.com/henriquetargino/Vehicles">GitHub</a> 
+        (all my comments and issues faced are in the repository's README). And if you’re interested in my work, here’s my <a href="https://www.linkedin.com/in/henriquetargino/">Linkedin</a>! Now let's dive into analyzing this data.
         </div>
         """, unsafe_allow_html=True)
 
