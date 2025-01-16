@@ -541,25 +541,30 @@ def model(model_csv):
     }
     model_csv['condition'] = model_csv['condition'].map(condicoes)
     
-    # ordenando a condicao
+    # ordenando as select boxs
     ordem = ['salvage', 'fair', 'good', 'excellent', 'like new', 'new']
-    
     ano_em_ordem_decrescente = model_csv['model_year'].sort_values(ascending=False).unique()
+    brand_list = sorted(model_csv['brand'].unique())
+    cylinders_list = sorted(model_csv['cylinders'].unique())
+    fuel_list = sorted(model_csv['fuel'].unique())
+    type_list = sorted(model_csv['type'].unique())
+    color_list = sorted(model_csv['paint_color'].unique())
     
-    # fazer uma select box para cada feature
+    
+    # fazer uma select box para cada feature    
     # fazendo com que o select box passe opcoes apenas da marca selecionada
-    select_brand = st.selectbox("Brand:", model_csv['brand'].unique())
+    select_brand = st.selectbox("Brand:", brand_list)
     filtered_models = model_csv[model_csv["brand"] == select_brand]["model"].unique()
     
     select_model = st.selectbox("Model:", filtered_models)
     select_year = st.selectbox("Year:", ano_em_ordem_decrescente)
     select_condition = st.selectbox("Condition:", ordem)
     select_condition = condicoes[select_condition]
-    select_cylinders = st.selectbox("Number of cylinders:", model_csv['cylinders'].unique())
-    select_fuel = st.selectbox("Fuel Type:", model_csv['fuel'].unique())
+    select_cylinders = st.selectbox("Number of cylinders:", cylinders_list)
+    select_fuel = st.selectbox("Fuel Type:", fuel_list)
     select_transmission = st.selectbox("Transmission Type:", model_csv['transmission'].unique())
-    select_type = st.selectbox("Car Type:", model_csv['type'].unique())
-    select_paint_color = st.selectbox("Paint Color:", model_csv['paint_color'].unique())
+    select_type = st.selectbox("Car Type:", type_list)
+    select_paint_color = st.selectbox("Paint Color:", color_list)
     select_is_4wd = st.selectbox("Is it 4x4? (1 = yes, 0 = no)", model_csv['is_4wd'].unique())
     select_odometer = st.number_input("Odometer: (Miles)", min_value=0, max_value=100000, value=0, step=1)  
     input_model = [select_brand, select_model, select_year, select_condition, select_cylinders, select_fuel, select_transmission, select_type, select_paint_color, select_is_4wd, select_odometer]
@@ -576,7 +581,7 @@ def model(model_csv):
 
     # predicao do modelo
     prediction = model_pkl.predict(df_final)
-    st.write("Based on the sales history of similar cars on our platform, we recommend listing your vehicle at the price of:",prediction[0])
+    st.write("Based on similar car sales on our platform, we recommend listing your vehicle in the price range of:",prediction[0].astype(int),"dollars")
     
     
     st.markdown("---")
