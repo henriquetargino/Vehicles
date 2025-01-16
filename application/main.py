@@ -524,6 +524,12 @@ def model(model_csv):
     with open("notebooks/predict.pkl", "rb") as file:
           model_pkl = pickle.load(file)
 
+    st.header("A.I. Model to Predict Car Prices:")
+    st.write("""To estimate the price of a car, users need to provide specific details about the vehicle. 
+             Start by selecting the brand, which will dynamically filter the available models. After choosing the model,
+             continue by filling in other features such as the year, fuel type, and condition. These inputs allow the 
+             model to make an accurate prediction based on historical platform data.""")
+
     # voltando aos nomes de condicoes
     condicoes = {
     'new': 5,
@@ -542,20 +548,20 @@ def model(model_csv):
     
     # fazer uma select box para cada feature
     # fazendo com que o select box passe opcoes apenas da marca selecionada
-    select_brand = st.selectbox("Select a brand:", model_csv['brand'].unique())
+    select_brand = st.selectbox("Brand:", model_csv['brand'].unique())
     filtered_models = model_csv[model_csv["brand"] == select_brand]["model"].unique()
     
-    select_model = st.selectbox("Select a model:", filtered_models)
-    select_year = st.selectbox("Select a year:", ano_em_ordem_decrescente)
-    select_condition = st.selectbox("Select a condition:", ordem)
+    select_model = st.selectbox("Model:", filtered_models)
+    select_year = st.selectbox("Year:", ano_em_ordem_decrescente)
+    select_condition = st.selectbox("Condition:", ordem)
     select_condition = condicoes[select_condition]
-    select_cylinders = st.selectbox("Select a number of cylinders:", model_csv['cylinders'].unique())
-    select_fuel = st.selectbox("Select a fuel type:", model_csv['fuel'].unique())
-    select_transmission = st.selectbox("Select a transmission type:", model_csv['transmission'].unique())
-    select_type = st.selectbox("Select a car type:", model_csv['type'].unique())
-    select_paint_color = st.selectbox("Select a paint color:", model_csv['paint_color'].unique())
-    select_is_4wd = st.selectbox("Select if it is 4wd:", model_csv['is_4wd'].unique())
-    select_odometer = st.number_input("Select the odometer:", min_value=0, max_value=100000, value=0, step=1)  
+    select_cylinders = st.selectbox("Number of cylinders:", model_csv['cylinders'].unique())
+    select_fuel = st.selectbox("Fuel Type:", model_csv['fuel'].unique())
+    select_transmission = st.selectbox("Transmission Type:", model_csv['transmission'].unique())
+    select_type = st.selectbox("Car Type:", model_csv['type'].unique())
+    select_paint_color = st.selectbox("Paint Color:", model_csv['paint_color'].unique())
+    select_is_4wd = st.selectbox("Is it 4x4? (1 = yes, 0 = no)", model_csv['is_4wd'].unique())
+    select_odometer = st.number_input("Odometer: (Miles)", min_value=0, max_value=100000, value=0, step=1)  
     input_model = [select_brand, select_model, select_year, select_condition, select_cylinders, select_fuel, select_transmission, select_type, select_paint_color, select_is_4wd, select_odometer]
 
     columns_user = [f'brand_{input_model[0]}', f'model_{input_model[1]}', 'model_year', 'condition', 'cylinders', f'fuel_{input_model[5]}', f'transmission_{input_model[6]}', f'type_{input_model[7]}', f'paint_color_{input_model[8]}', 'is_4wd', 'odometer']
@@ -568,6 +574,21 @@ def model(model_csv):
     df_final = pd.concat([empty_df, input_df], axis=0)
     df_final = df_final.fillna(False)
 
-    # The model has now been deserialized, next is to make use of it as you normally would.
-    prediction = model_pkl.predict(df_final) # Passing in variables for prediction
-    st.write("O carro custa",prediction[0]) # Printing result
+    # predicao do modelo
+    prediction = model_pkl.predict(df_final)
+    st.write("Based on the sales history of similar cars on our platform, we recommend listing your vehicle at the price of:",prediction[0])
+    
+    
+    st.markdown("---")
+    
+    # footer
+    st.markdown("""
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <div class="footer">
+            <p>Developed by <strong>Henrique Targino</strong> | 
+                <a href="mailto:henriquetarginoalbuquerque@gmail.com"><i class="fas fa-envelope"></i></a> |
+                <a href="https://github.com/henriquetargino"><i class="fab fa-github"></i></a> |
+                <a href="https://www.linkedin.com/in/henriquetargino/"><i class="fab fa-linkedin"></i></a>
+            </p>
+        </div>
+    """, unsafe_allow_html=True) 
