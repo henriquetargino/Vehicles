@@ -555,12 +555,11 @@ def model(model_csv):
     select_type = st.selectbox("Select a car type:", model_csv['type'].unique())
     select_paint_color = st.selectbox("Select a paint color:", model_csv['paint_color'].unique())
     select_is_4wd = st.selectbox("Select if it is 4wd:", model_csv['is_4wd'].unique())
-    select_odometer = 10000
-    
+    select_odometer = st.number_input("Select the odometer:", min_value=0, max_value=100000, value=0, step=1)  
     input_model = [select_brand, select_model, select_year, select_condition, select_cylinders, select_fuel, select_transmission, select_type, select_paint_color, select_is_4wd, select_odometer]
 
     columns_user = [f'brand_{input_model[0]}', f'model_{input_model[1]}', 'model_year', 'condition', 'cylinders', f'fuel_{input_model[5]}', f'transmission_{input_model[6]}', f'type_{input_model[7]}', f'paint_color_{input_model[8]}', 'is_4wd', 'odometer']
-    st.write("Columns:", columns_user)
+
     inputs = [True, True, select_year, select_condition, select_cylinders, True, True, True, True, select_is_4wd, select_odometer]
 
 
@@ -568,7 +567,7 @@ def model(model_csv):
     input_df = pd.DataFrame([inputs], columns=columns_user)
     df_final = pd.concat([empty_df, input_df], axis=0)
     df_final = df_final.fillna(False)
-    st.dataframe(df_final)
+
     # The model has now been deserialized, next is to make use of it as you normally would.
     prediction = model_pkl.predict(df_final) # Passing in variables for prediction
     st.write("O carro custa",prediction[0]) # Printing result
