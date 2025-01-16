@@ -518,23 +518,50 @@ def tests(car_data):
             </p>
         </div>
     """, unsafe_allow_html=True) 
+    
 def model(model_csv):
     # Abrindo o modelo salvo
     with open("notebooks/predict.pkl", "rb") as file:
           model_pkl = pickle.load(file)
 
+    # voltando aos nomes de condicoes
+    condicoes = {
+    'new': 5,
+    'like new': 4 ,
+    'excellent': 3,
+    'good': 2,
+    'fair': 1,
+    'salvage': 0
+    }
+    model_csv['condition'] = model_csv['condition'].map(condicoes)
+    
+    # ordenando a condicao
+    ordem = ['salvage', 'fair', 'good', 'excellent', 'like new', 'new']
+    
+    ano_em_ordem_decrescente = model_csv['model_year'].sort_values(ascending=False).unique()
     # fazer uma select box para cada feature
+    # fazendo com que o select box passe opcoes apenas da marca selecionada
     select_brand = st.selectbox("Select a brand:", model_csv['brand'].unique())
-    select_model = st.selectbox("Select a model:", model_csv['model'].unique())
-    select_year = st.selectbox("Select a year:", model_csv['model_year'].unique())
-    select_condition = st.selectbox("Select a condition:", model_csv['condition'].unique())
+    filtered_models = model_csv[model_csv["brand"] == select_brand]["model"].unique()
+    
+    selected_model = st.selectbox("Select a model:", filtered_models)
+    select_year = st.selectbox("Select a year:", ano_em_ordem_decrescente)
+    select_condition = st.selectbox("Select a condition:", ordem)
+    select_condition = condicoes[select_condition]
     select_cylinders = st.selectbox("Select a number of cylinders:", model_csv['cylinders'].unique())
     select_fuel = st.selectbox("Select a fuel type:", model_csv['fuel'].unique())
     select_transmission = st.selectbox("Select a transmission type:", model_csv['transmission'].unique())
     select_type = st.selectbox("Select a car type:", model_csv['type'].unique())
     select_paint_color = st.selectbox("Select a paint color:", model_csv['paint_color'].unique())
     select_is_4wd = st.selectbox("Select if it is 4wd:", model_csv['is_4wd'].unique())
-    st.write(f"You selected the model: {select_model}")
-    # Opening saved model
-    with open("notebooks/predict.pkl", "rb") as file:
-          model_pkl = pickle.load(file)
+    
+    models_df = model_csv[model_csv['brand'] == select_brand]
+    if models_df:
+        select_model = st.selectbox("Select a model:", models_df['model'].unique(), disabled=True)
+    
+    features = [select_brand, select_model, select_year, select_condition, select_cylinders, select_fuel, select_transmission, select_type, select_paint_color, select_is_4wd]
+    st.write(features)
+
+    # The model has now been deserialized, next is to make use of it as you normally would.
+    #prediction = model_pkl.predict(features) # Passing in variables for prediction
+    #print("O carro custa",prediction[0]) # Printing result
