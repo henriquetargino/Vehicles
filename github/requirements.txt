@@ -7,4 +7,3 @@ matplotlib
 lxml
 streamlit-option-menu
 scikit-learn
-pickle
