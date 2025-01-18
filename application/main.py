@@ -403,7 +403,7 @@ def data_analysis(car_data):
 
     st.markdown("""The code below demonstrates how to calculate the 
                 percentage of outliers for each car brand:""", unsafe_allow_html=True)
-    st.code("""q1 = car_data['days_listed'].quantile(0.25)
+    st.code("""    q1 = car_data['days_listed'].quantile(0.25)
     q3 = car_data['days_listed'].quantile(0.75)
     iqr = q3 - q1
 
