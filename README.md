@@ -39,7 +39,7 @@ Finding a reliable machine learning model was another challenge. While testing R
 - **Font Awesome**: For adding icons to the footer.
 - **Jupyter Notebook**: For Exploratory Data Analysis (EDA).
 - **CSS**: For the style of the web app.
-- **Scikit-Learning**: For training machine learning models.
+- **Scikit-Learn**: For training machine learning models.
 
 ## Installation
 
